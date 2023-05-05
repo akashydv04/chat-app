@@ -64,6 +64,7 @@ const AvatarUploadBtn = () => {
       useAvatarRef.set(downloadUrl);
       setIsLoading(false);
       Alert.info('Avatar has been uploaded', 4000);
+      close();
     } catch (error) {
       setIsLoading(false);
       Alert.error(error.message, 4000);
