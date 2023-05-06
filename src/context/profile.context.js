@@ -15,7 +15,6 @@ export const ProfileProvider = ({ children }) => {
         userRef.on('value', snap => {
           if (snap) {
             const { name, createdAt, avatar } = snap.val();
-            console.log('snap', snap);
             const data = {
               avatar,
               name,
