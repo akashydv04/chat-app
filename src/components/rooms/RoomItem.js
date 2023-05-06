@@ -3,7 +3,7 @@ import TimeAgo from 'timeago-react';
 
 const RoomItem = ({ room }) => {
   const { createdAt, name } = room;
-  console.log(room);
+
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center">
