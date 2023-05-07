@@ -10,6 +10,9 @@ const Home = () => {
   const isDesktop = useMediaQuery('(min-width:992px)');
   const { isExact } = useRouteMatch();
   const canRenderSideBar = isDesktop || isExact;
+  {
+    console.log('sign in');
+  }
   return (
     <RoomsProvider>
       <Grid fluid className="h-100">

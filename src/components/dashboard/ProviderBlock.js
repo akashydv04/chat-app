@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Button, Icon, Tag } from 'rsuite';
 import { auth } from '../../misc/firebase';
 import firebase from 'firebase/compat/app';
 
 const ProviderBlock = () => {
   const [isConnected, setIsConnected] = useState({
-    'google.com': auth.currentUser.providerData.some(
-      data => data.providerId === 'google.com'
-    ),
-    'facebook.com': auth.currentUser.providerData.some(
-      data => data.providerId === 'facebook.com'
-    ),
+    'google.com': false,
+    'facebook.com': false,
   });
+
+  useEffect(() => {
+    const providerData = auth.currentUser && auth.currentUser.providerData;
+    if (providerData) {
+      setIsConnected({
+        'google.com': providerData.some(
+          data => data.providerId === 'google.com'
+        ),
+        'facebook.com': providerData.some(
+          data => data.providerId === 'facebook.com'
+        ),
+      });
+    }
+  }, [auth.currentUser]);
 
   const updateIsConnected = (providerId, value) => {
     setIsConnected(p => {
