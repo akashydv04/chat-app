@@ -23,7 +23,7 @@ const RoomItem = ({ room }) => {
               <ProfileAvatar
                 src={lastMessage.author.avatar}
                 name={lastMessage.author.name}
-                size="sm"
+                size="xs"
               />
             </div>
             <div className="text-disappear ml-2">
@@ -34,7 +34,6 @@ const RoomItem = ({ room }) => {
         ) : (
           <span>No message yet...</span>
         )}
-        <span>{lastMessage ? lastMessage.text : 'No message yet...'}</span>
       </div>
     </div>
   );

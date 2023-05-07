@@ -83,7 +83,7 @@ const AvatarUploadBtn = () => {
 
   return (
     <div className="mt-3 text-center">
-      <ProfileAvatar src={profile.avatar} name={profile.name} />
+      <ProfileAvatar scale={'200'} src={profile.avatar} name={profile.name} />
 
       <div>
         <label
