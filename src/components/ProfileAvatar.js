@@ -7,7 +7,7 @@ const ProfileAvatar = ({ scale, name, ...avatarProps }) => {
     <Avatar
       circle
       {...avatarProps}
-      className={`width-${scale} height-${scale} img-fullsize font-huge`}
+      className={`width-${scale} height-${scale} img-fullsize font-huge ml-2`}
     >
       {getNameInitials(name)}
     </Avatar>

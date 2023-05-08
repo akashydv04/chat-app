@@ -32,7 +32,6 @@ const PresenceDot = ({ uid }) => {
   return (
     <Whisper
       placement="top"
-      controlId="control-id-hover"
       trigger="hover"
       speaker={<Tooltip>{getText(presence)}</Tooltip>}
     >
