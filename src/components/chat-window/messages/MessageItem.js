@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import React, { memo } from 'react';
 import ProfileAvatar from '../../ProfileAvatar';
 import TimeAgo from 'timeago-react';
@@ -7,6 +8,7 @@ import PresenceDot from '../../PresenceDot';
 import { useCurrentRoom } from '../../../context/current-room.context';
 import { auth } from '../../../misc/firebase';
 import { useHover } from '../../../misc/custom-hook';
+import IconBtnControl from './IconBtnControl';
 
 const MessageItem = ({ message, handleAdmin }) => {
   const { author, createdAt, text } = message;
@@ -46,6 +48,14 @@ const MessageItem = ({ message, handleAdmin }) => {
         <TimeAgo
           datetime={createdAt}
           className="font-normal text-black-45 ml-2"
+        />
+        <IconBtnControl
+          {...(false ? { color: 'red' } : {})}
+          isVisible
+          iconName="heart"
+          tooltip="Like this message"
+          onClick={() => {}}
+          badgeContent={5}
         />
       </div>
       <div>
