@@ -15,8 +15,8 @@ const AudioMsgBtn = ({ afterUpload }) => {
       try {
         const snap = await storage
           .ref(`/chat/${chatId}`)
-          .child(`audio_${Date.now()}.mp3`)
-          .put(data.blobFile, {
+          .child(`audio_${Date.now()}.wav`)
+          .put(data.blobURL, {
             cacheControl: `public, max-age=${3600 * 24 * 3}`,
           });
 
@@ -50,7 +50,7 @@ const AudioMsgBtn = ({ afterUpload }) => {
         record={isRecording}
         className="d-none"
         onStop={onUpload}
-        mimeType="audio/mp3"
+        mimeType="audio/wav"
       />
     </InputGroup.Button>
   );
