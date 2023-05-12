@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth, database } from '../misc/firebase';
+import { auth, database, messaging } from '../misc/firebase';
 import firebase from 'firebase/compat/app';
 
 export const isOfflineForDatabase = {
@@ -21,7 +21,8 @@ export const ProfileProvider = ({ children }) => {
   useEffect(() => {
     let userRef;
     let userStatusRef;
-    const authUnSub = auth.onAuthStateChanged(authObj => {
+    let tokenRefreshUnSub;
+    const authUnSub = auth.onAuthStateChanged(async authObj => {
       if (authObj) {
         console.log('user id: ', authObj.uid);
         userStatusRef = database.ref(`/status/${authObj.uid}`);
@@ -53,6 +54,53 @@ export const ProfileProvider = ({ children }) => {
               userStatusRef.set(isOnlineForDatabase);
             });
         });
+
+        if (messaging) {
+          try {
+            const currentToken = await messaging.getToken();
+            if (currentToken) {
+              await database.ref(`/fcm_token/${currentToken}`).set(authObj.uid);
+            }
+          } catch (error) {
+            console.log(
+              'An error occurred while retrieving token. ',
+              error.message
+            );
+          }
+
+          tokenRefreshUnSub = messaging.onTokenRefresh(async () => {
+            try {
+              const currentToken = await messaging.getToken();
+              if (currentToken) {
+                await database
+                  .ref(`/fcm_token/${currentToken}`)
+                  .set(authObj.uid);
+              }
+            } catch (error) {
+              console.log(
+                'An error occurred while retrieving token. ',
+                error.message
+              );
+            }
+          });
+          // messaging
+          //   .getToken(messaging, { vapidKey: '<YOUR_PUBLIC_VAPID_KEY_HERE>' })
+          //   .then(currentToken => {
+          //     if (currentToken) {
+          //       // Send the token to your server and update the UI if necessary
+          //       // ...
+          //     } else {
+          //       // Show permission request UI
+          //       console.log(
+          //         'No registration token available. Request permission to generate one.'
+          //       );
+          //       // ...
+          //     }
+          //   })
+          //   .catch(err => {
+          //     console.log('An error occurred while retrieving token. ', err);
+          //   });
+        }
       } else {
         if (userRef) {
           userRef.off();
@@ -60,6 +108,10 @@ export const ProfileProvider = ({ children }) => {
 
         if (userStatusRef) {
           userStatusRef.off();
+        }
+
+        if (tokenRefreshUnSub) {
+          tokenRefreshUnSub();
         }
         database.ref('.info/connected').off();
         setProfile(null);
@@ -74,6 +126,9 @@ export const ProfileProvider = ({ children }) => {
 
       if (userStatusRef) {
         userStatusRef.off();
+      }
+      if (tokenRefreshUnSub) {
+        tokenRefreshUnSub();
       }
       database.ref('.info/connected').off();
     };
