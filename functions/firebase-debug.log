@@ -357,3 +357,38 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
 [debug] [2023-05-13T12:37:31.964Z] shutdown requested via /__/quitquitquit
 
 [info] +  functions: Loaded functions definitions from source: helloWorld. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: helloWorld."}}
+[debug] [2023-05-13T13:29:59.942Z] File D:\React Main Projects\chat-app\functions\src\fcm.js changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\React Main Projects\\chat-app\\functions\\src\\fcm.js changed, reloading triggers"}}
+[debug] [2023-05-13T13:30:00.950Z] Validating nodejs source
+[debug] [2023-05-13T13:30:03.550Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run serve",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.0.0"
+  },
+  "private": true
+}
+[debug] [2023-05-13T13:30:03.550Z] Building nodejs source
+[debug] [2023-05-13T13:30:03.550Z] Failed to find version of module node: reached end of search path D:\React Main Projects\chat-app\functions\node_modules
+[warn] !  functions: Your requested "node" version "10" doesn't match your global version "18". Using node@18 from host. 
+[debug] [2023-05-13T13:30:03.552Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-05-13T13:30:03.556Z] Found firebase-functions binary at 'D:\React Main Projects\chat-app\functions\node_modules\.bin\firebase-functions'
+[debug] [2023-05-13T13:30:03.753Z] Serving at port 8917
+
