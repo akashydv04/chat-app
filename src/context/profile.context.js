@@ -59,13 +59,12 @@ export const ProfileProvider = ({ children }) => {
           try {
             const currentToken = await messaging.getToken();
             if (currentToken) {
-              await database.ref(`/fcm_token/${currentToken}`).set(authObj.uid);
+              await database
+                .ref(`/fcm_tokens/${currentToken}`)
+                .set(authObj.uid);
             }
-          } catch (error) {
-            console.log(
-              'An error occurred while retrieving token. ',
-              error.message
-            );
+          } catch (err) {
+            console.log('An error occurred while retrieving token. ', err);
           }
 
           tokenRefreshUnSub = messaging.onTokenRefresh(async () => {
@@ -73,33 +72,13 @@ export const ProfileProvider = ({ children }) => {
               const currentToken = await messaging.getToken();
               if (currentToken) {
                 await database
-                  .ref(`/fcm_token/${currentToken}`)
+                  .ref(`/fcm_tokens/${currentToken}`)
                   .set(authObj.uid);
               }
-            } catch (error) {
-              console.log(
-                'An error occurred while retrieving token. ',
-                error.message
-              );
+            } catch (err) {
+              console.log('An error occurred while retrieving token. ', err);
             }
           });
-          // messaging
-          //   .getToken(messaging, { vapidKey: '<YOUR_PUBLIC_VAPID_KEY_HERE>' })
-          //   .then(currentToken => {
-          //     if (currentToken) {
-          //       // Send the token to your server and update the UI if necessary
-          //       // ...
-          //     } else {
-          //       // Show permission request UI
-          //       console.log(
-          //         'No registration token available. Request permission to generate one.'
-          //       );
-          //       // ...
-          //     }
-          //   })
-          //   .catch(err => {
-          //     console.log('An error occurred while retrieving token. ', err);
-          //   });
         }
       } else {
         if (userRef) {
