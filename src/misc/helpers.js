@@ -66,7 +66,7 @@ export function groupBy(array, groupingKeyFn) {
 }
 
 // eslint-disable-next-line no-unused-vars
-const isLocalHost = Boolean(
+export const isLocalHost = Boolean(
   window.location.hostname === 'localhost' ||
     window.location.hostname === '[::1]' ||
     window.location.hostname.match(

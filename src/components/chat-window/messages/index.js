@@ -156,7 +156,6 @@ const Messages = () => {
     const group = groupBy(messages, item =>
       new Date(item.createdAt).toDateString()
     );
-    console.log(group);
 
     const items = [];
     Object.keys(group).forEach(date => {

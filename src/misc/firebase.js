@@ -1,9 +1,12 @@
 // Import the functions you need from the SDKs you need
+import { Notification as Toast } from 'rsuite';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import 'firebase/compat/storage';
 import 'firebase/compat/messaging';
+import 'firebase/compat/functions';
+import { isLocalHost } from './helpers';
 // import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,6 +27,7 @@ const app = firebase.initializeApp(firebaseConfig);
 export const auth = app.auth();
 export const database = app.database();
 export const storage = app.storage();
+export const functions = app.functions('us-central1');
 
 export const messaging = firebase.messaging.isSupported()
   ? app.messaging()
@@ -51,8 +55,9 @@ if (messaging) {
       console.log('An error occurred while retrieving token. ', err);
       // ...
     });
-  messaging.onMessage(data => {
-    console.log(data);
+  messaging.onMessage(({ notification }) => {
+    const { title, body } = notification;
+    Toast.info({ title, description: body, duration: 0 });
   });
 }
 
@@ -78,29 +83,6 @@ messaging
     // ...
   });
 
-// const messaging = getMessaging(app);
-
-// export const getUserToken = setTokenFound => {
-//   return getToken(messaging, {
-//     vapidKey:
-//       'BKj-bdhHILNs74vbOxtXfCMShrQ52paE7UCYwCXceGU29ieIq6SU7xKt7pOAHf4GPmGCiy0fAvWg9MQpwQUmGb0',
-//   })
-//     .then(currentToken => {
-//       if (currentToken) {
-//         console.log('current token for client: ', currentToken);
-//         setTokenFound(true);
-//         // Track the token -> client mapping, by sending to backend server
-//         // show on the UI that permission is secured
-//       } else {
-//         console.log(
-//           'No registration token available. Request permission to generate one.'
-//         );
-//         setTokenFound(false);
-//         // shows on the UI that permission is required
-//       }
-//     })
-//     .catch(err => {
-//       console.log('An error occurred while retrieving token. ', err);
-//       // catch error while creating client token
-//     });
-// };
+if (isLocalHost) {
+  functions.useFunctionsEmulator('http://localhost:5001');
+}

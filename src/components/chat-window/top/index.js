@@ -5,11 +5,11 @@ import { ButtonToolbar, Icon } from 'rsuite';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import RoomInfoBtnModal from './RoomInfoBtnModal';
 import EditRoomBtnDrawer from './EditRoomBtnDrawer';
+import SendFcmBtnModal from './SendFcmBtnModal';
 
 const Top = () => {
   const name = useCurrentRoom(v => v.name);
   const isAdmin = useCurrentRoom(v => v.isAdmin);
-  const admins = useCurrentRoom(v => v.admins);
   const isMobile = useMediaQuery('(max-width:992px)');
   return (
     <div>
@@ -34,7 +34,7 @@ const Top = () => {
         </ButtonToolbar>
       </div>
       <div className="d-flex justify-content-between align-items-center">
-        <span>todo</span>
+        {isAdmin && <SendFcmBtnModal />}
         <RoomInfoBtnModal />
       </div>
     </div>
