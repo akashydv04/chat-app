@@ -21,7 +21,8 @@ exports.sendFcm = functions
     const { chatId, title, message } = data;
 
     const roomSnap = await database.ref(`/rooms/${chatId}`).once('value');
-    if (!roomSnap.exists) {
+
+    if (!roomSnap.exists()) {
       return false;
     }
 
@@ -46,11 +47,12 @@ exports.sendFcm = functions
         title: `${title} (${roomData.name})`,
         body: message,
       },
-      token,
+      tokens: token,
     };
 
-    const batchResponse = await messaging.sendMulticast(fcmMsg);
     const failedTokens = [];
+    const batchResponse = await messaging.sendEachForMulticast(fcmMsg);
+
     if (batchResponse.failureCount > 0) {
       batchResponse.responses.forEach((resp, idx) => {
         if (!resp.success) {

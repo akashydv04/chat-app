@@ -48,7 +48,10 @@ const SendFcmBtnModal = () => {
 
     try {
       const sendFcm = functions.httpsCallable('sendFcm');
+      console.log(sendFcm);
       await sendFcm({ chatId, ...formValue });
+      console.log(chatId);
+
       setIsLoading(false);
       setFormValue(INITIAL_FORM);
       close();
